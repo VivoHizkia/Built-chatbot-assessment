@@ -2,7 +2,7 @@
 
 A chatbot that answers visitor questions using only the seven PlacidWay pages shared for the AI Automation Engineer assessment. Every answer links to the page it came from. When the pages do not cover a question, the bot says so and points to the free-quote form instead of guessing.
 
-- **Live demo:** _add your Vercel URL here_
+- **Live demo:** https://built-chatbot-assessment.vercel.app/
 - **Test results:** [test-results/results.md](test-results/results.md)
 - **Limitations and next steps:** [WRITEUP.md](WRITEUP.md)
 
@@ -124,7 +124,7 @@ A free Gemini key is available at https://aistudio.google.com/apikey.
 ## Deploy on Vercel
 
 1. Push the repository to GitHub and import it in Vercel (framework preset: Next.js).
-2. Add the environment variable `LLM_API_KEY`.
+2. Add the environment variables `LLM_API_KEY` and, optionally, `LLM_FALLBACK_MODEL`.
 3. Deploy. There is no database to set up.
 
 ## Logs

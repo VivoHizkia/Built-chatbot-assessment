@@ -7,6 +7,8 @@ import type { ChatTurn } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+// Two LLM calls, each with a retry and a fallback model, can take a while when the provider is busy.
+export const maxDuration = 60;
 
 const MAX_QUESTION_CHARS = 500;
 
