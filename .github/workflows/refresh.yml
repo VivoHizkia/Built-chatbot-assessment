@@ -1,0 +1,35 @@
+# Re-crawls the 7 pages every Monday (or on demand) and commits data/knowledge.json if it changed.
+# The commit triggers a normal redeploy on Vercel, so the live bot picks up page changes.
+name: Refresh knowledge base
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run ingest
+      - run: npm test
+      - name: Commit if content changed
+        run: |
+          if git diff --quiet -- data/knowledge.json; then
+            echo "No content changes."
+            exit 0
+          fi
+          git config user.name "knowledge-refresh-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/knowledge.json
+          git commit -m "Refresh knowledge base"
+          git push
