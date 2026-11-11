@@ -117,6 +117,14 @@ async function main() {
     process.exit(1);
   }
 
+  // Nothing changed: leave the file alone, so the weekly workflow has nothing to commit and
+  // "content updated" on the site keeps showing the date of the last real change.
+  const samePages = previous?.pages.length === knowledge.pages.length;
+  if (samePages && changed === 0) {
+    console.log(`No content changes (${failed} failed); data/knowledge.json left as it is.`);
+    return;
+  }
+
   await mkdir(path.dirname(OUTPUT_FILE), { recursive: true });
   await writeFile(OUTPUT_FILE, JSON.stringify(knowledge, null, 2) + "\n");
   console.log(
